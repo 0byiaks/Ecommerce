@@ -7,11 +7,20 @@ const authRoutes = require('./routes/auth');
 const productRoutes = require('./routes/products');
 const cartRoutes = require('./routes/cart');
 const orderRoutes = require('./routes/orders');
+const adminRoutes = require('./routes/admin');
 
 const app = express();
 
 // Enable CORS for frontend communication
-app.use(cors());
+const corsOptions = {
+  origin: [
+    'http://localhost:5173', // Local development
+    'https://ecommerce-frontend-172x.onrender.com', // Production frontend
+    'https://ecommerce-frontend-172x.onrender.com/' // Production frontend with trailing slash
+  ],
+  credentials: true
+};
+app.use(cors(corsOptions));
 
 // Middleware
 app.use(express.json()); // Parse JSON bodies
@@ -27,6 +36,9 @@ app.use('/api/cart', cartRoutes);
 
 // Mount order routes
 app.use('/api/orders', orderRoutes);
+
+// Mount admin routes
+app.use('/api/admin', adminRoutes);
 
 // Routes
 app.get('/', (req, res) => res.send('Backend working'));

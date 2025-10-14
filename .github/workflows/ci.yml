@@ -65,13 +65,13 @@ jobs:
       run: |
         echo "🚀 Deploying backend to Render..."
         echo "📝 Add your Render service URL here"
-        echo "🔗 Example: https://your-backend.onrender.com"
+        echo "🔗 Example: https://ecommerce-backend-kwkg.onrender.com"
 
     - name: 🚀 Deploy to Render (Frontend)
       run: |
         echo "🚀 Deploying frontend to Render..."
         echo "📝 Add your Render service URL here"
-        echo "🔗 Example: https://your-frontend.onrender.com"
+        echo "🔗 Example: https://ecommerce-frontend-172x.onrender.com"
 
     - name: 🌐 Update Environment Variables
       run: |
