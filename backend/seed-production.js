@@ -1,7 +1,9 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
-const connectDB = require('./config/db');
 const Product = require('./models/Product');
+
+// Use production MongoDB URI
+const MONGODB_URI = 'mongodb+srv://austinbale667_db_user:VRDEyu1sMmKdgCju@crud.uqdznk1.mongodb.net/ecommerce?retryWrites=true&w=majority&appName=CRUD';
 
 const sampleProducts = [
   // Electronics
@@ -388,9 +390,11 @@ const sampleProducts = [
   }
 ];
 
-const seedDatabase = async () => {
+const seedProductionDatabase = async () => {
   try {
-    await connectDB();
+    console.log('🔄 Connecting to production database...');
+    await mongoose.connect(MONGODB_URI);
+    console.log('✅ Connected to production database');
     
     // Clear existing products
     await Product.deleteMany({});
@@ -398,20 +402,21 @@ const seedDatabase = async () => {
     
     // Add sample products
     await Product.insertMany(sampleProducts);
-    console.log('✅ Added sample products');
+    console.log('✅ Added sample products to production');
     
     // Show what was added
     const products = await Product.find({});
-    console.log(`📦 Total products: ${products.length}`);
+    console.log(`📦 Total products in production: ${products.length}`);
     products.forEach(p => {
       console.log(`   - ${p.name}: $${p.price}`);
     });
     
+    console.log('🎉 Production database seeded successfully!');
     process.exit(0);
   } catch (error) {
-    console.error('❌ Error seeding database:', error);
+    console.error('❌ Error seeding production database:', error);
     process.exit(1);
   }
 };
 
-seedDatabase();
+seedProductionDatabase();
