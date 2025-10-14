@@ -1,7 +1,11 @@
 import axios from "axios";
 
+// Production API configuration - Hardcoded for production
+const API_URL = "https://ecommerce-backend-kwkg.onrender.com/api";
+console.log("🔗 API URL:", API_URL); // Debug log
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "https://ecommerce-backend-kwkg.onrender.com/api", // backend URL - Updated for production
+  baseURL: API_URL, // backend URL - Hardcoded for production
 });
 
 // Add JWT token automatically if it exists
