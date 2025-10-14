@@ -22,23 +22,23 @@ jobs:
 
     - name: 🔧 Install Backend Dependencies
       run: |
-        cd ecommerce/backend
+        cd backend
         npm ci
 
     - name: 🔧 Install Frontend Dependencies
       run: |
-        cd ecommerce/frontend
+        cd frontend
         npm ci
 
     - name: 🏗️ Build Frontend
       run: |
-        cd ecommerce/frontend
+        cd frontend
         npm run build
 
     - name: 🐳 Build Docker Images
       run: |
-        docker build -t ecommerce-backend:latest ./ecommerce/backend
-        docker build -t ecommerce-frontend:latest ./ecommerce/frontend
+        docker build -t ecommerce-backend:latest ./backend
+        docker build -t ecommerce-frontend:latest ./frontend
 
     - name: ✅ CI Success
       run: |
