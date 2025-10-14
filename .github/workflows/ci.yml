@@ -1,0 +1,48 @@
+name: 🚀 CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout Code
+      uses: actions/checkout@v4
+
+    - name: 📦 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: 🔧 Install Backend Dependencies
+      run: |
+        cd ecommerce/backend
+        npm ci
+
+    - name: 🔧 Install Frontend Dependencies
+      run: |
+        cd ecommerce/frontend
+        npm ci
+
+    - name: 🏗️ Build Frontend
+      run: |
+        cd ecommerce/frontend
+        npm run build
+
+    - name: 🐳 Build Docker Images
+      run: |
+        docker build -t ecommerce-backend:latest ./ecommerce/backend
+        docker build -t ecommerce-frontend:latest ./ecommerce/frontend
+
+    - name: ✅ CI Success
+      run: |
+        echo "🎉 CI/CD Pipeline completed successfully!"
+        echo "✅ Dependencies installed"
+        echo "✅ Frontend built"
+        echo "✅ Docker images created"

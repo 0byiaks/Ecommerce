@@ -1,0 +1,69 @@
+name: 🔧 Build and Test
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout Code
+      uses: actions/checkout@v4
+
+    - name: 📦 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: 🔧 Install Backend Dependencies
+      run: |
+        cd ecommerce/backend
+        npm ci
+
+    - name: 🔧 Install Frontend Dependencies
+      run: |
+        cd ecommerce/frontend
+        npm ci
+
+    - name: 🧪 Test Backend
+      run: |
+        cd ecommerce/backend
+        npm test --if-present
+
+    - name: 🧪 Test Frontend
+      run: |
+        cd ecommerce/frontend
+        npm test --if-present
+
+    - name: 🔍 Lint Backend
+      run: |
+        cd ecommerce/backend
+        npm run lint --if-present
+
+    - name: 🔍 Lint Frontend
+      run: |
+        cd ecommerce/frontend
+        npm run lint --if-present
+
+    - name: 🏗️ Build Frontend
+      run: |
+        cd ecommerce/frontend
+        npm run build
+
+    - name: 🐳 Build Docker Images
+      run: |
+        docker build -t ecommerce-backend:latest ./ecommerce/backend
+        docker build -t ecommerce-frontend:latest ./ecommerce/frontend
+
+    - name: 📊 Upload Build Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-artifacts
+        path: |
+          ecommerce/frontend/dist
+          ecommerce/backend/node_modules
