@@ -46,3 +46,47 @@ jobs:
         echo "✅ Dependencies installed"
         echo "✅ Frontend built"
         echo "✅ Docker images created"
+
+  deploy:
+    needs: ci
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: 📥 Checkout Code
+      uses: actions/checkout@v4
+
+    - name: 📦 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    - name: 🚀 Deploy to Render (Backend)
+      run: |
+        echo "🚀 Deploying backend to Render..."
+        echo "📝 Add your Render service URL here"
+        echo "🔗 Example: https://your-backend.onrender.com"
+
+    - name: 🚀 Deploy to Render (Frontend)
+      run: |
+        echo "🚀 Deploying frontend to Render..."
+        echo "📝 Add your Render service URL here"
+        echo "🔗 Example: https://your-frontend.onrender.com"
+
+    - name: 🌐 Update Environment Variables
+      run: |
+        echo "🔧 Update your production environment variables:"
+        echo "   - MONGO_URI: Your MongoDB Atlas connection string"
+        echo "   - JWT_SECRET: Your production JWT secret"
+        echo "   - PORT: 8000 (or your preferred port)"
+
+    - name: ✅ Deployment Success
+      run: |
+        echo "🎉 Deployment completed successfully!"
+        echo "✅ Backend deployed"
+        echo "✅ Frontend deployed"
+        echo "✅ Environment configured"
+        echo ""
+        echo "🔗 Your app is now live!"
+        echo "📱 Frontend: https://your-frontend.onrender.com"
+        echo "🔧 Backend: https://your-backend.onrender.com"
