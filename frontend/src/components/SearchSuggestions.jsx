@@ -16,8 +16,18 @@ function SearchSuggestions({ query, onSelect }) {
           const productNames = res.data.map(p => p.name);
           
           setSuggestions([
-            ...categories.slice(0, 3).map(cat => ({ type: 'category', text: cat })),
-            ...productNames.slice(0, 3).map(name => ({ type: 'product', text: name }))
+            ...categories.slice(0, 3).map(cat => ({ 
+              type: 'category', 
+              text: cat,
+              icon: '🏷️',
+              description: `Search in ${cat} category`
+            })),
+            ...productNames.slice(0, 3).map(name => ({ 
+              type: 'product', 
+              text: name,
+              icon: '🔍',
+              description: 'Product'
+            }))
           ]);
         } catch (err) {
           console.error("Error fetching suggestions:", err);
@@ -46,13 +56,19 @@ function SearchSuggestions({ query, onSelect }) {
           <button
             key={index}
             onClick={() => onSelect(suggestion.text)}
-            className="w-full text-left px-4 py-2 hover:bg-gray-100 border-b border-gray-100 last:border-b-0"
+            className="w-full text-left px-4 py-3 hover:bg-gray-50 border-b border-gray-100 last:border-b-0 transition-colors duration-150"
           >
-            <div className="flex items-center">
-              <span className="text-gray-400 mr-2">
-                {suggestion.type === 'category' ? '📂' : '📦'}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <span className="text-lg mr-3">{suggestion.icon}</span>
+                <div>
+                  <div className="text-gray-800 font-medium">{suggestion.text}</div>
+                  <div className="text-sm text-gray-500">{suggestion.description}</div>
+                </div>
+              </div>
+              <span className="text-gray-400 text-xs">
+                {suggestion.type === 'category' ? 'CATEGORY' : 'PRODUCT'}
               </span>
-              <span className="text-gray-700">{suggestion.text}</span>
             </div>
           </button>
         ))
