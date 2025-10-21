@@ -70,11 +70,11 @@ function Navbar() {
 
         {user ? (
           <>
-            <Link to="/cart" className="flex items-center hover:text-amazonYellow relative">
-              <ShoppingCart size={20} className="mr-1" />
+            <Link to="/cart" className="flex items-center hover:text-amazonYellow relative group">
+              <ShoppingCart size={20} className="mr-1 transition-transform duration-200 group-hover:scale-110" />
               Cart
               {cartCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-amazonOrange text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 bg-amazonOrange text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center animate-pulse hover:animate-bounce transition-all duration-300 hover:scale-110">
                   {cartCount}
                 </span>
               )}
