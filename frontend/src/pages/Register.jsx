@@ -9,10 +9,24 @@ function Register() {
     password: "",
   });
   const [message, setMessage] = useState("");
+  const [passwordStrength, setPasswordStrength] = useState("");
   const navigate = useNavigate();
+
+  // Password strength validation
+  const validatePassword = (password) => {
+    if (password.length < 6) return "Weak";
+    if (password.length < 8) return "Medium";
+    if (password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)) return "Strong";
+    return "Medium";
+  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    
+    // Update password strength when password changes
+    if (e.target.name === "password") {
+      setPasswordStrength(validatePassword(e.target.value));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -74,6 +88,27 @@ function Register() {
             required
             className="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-amazonYellow focus:border-transparent outline-none transition-all"
           />
+          {formData.password && (
+            <div className="mt-2">
+              <div className="flex items-center space-x-2">
+                <div className={`h-2 w-full rounded-full ${
+                  passwordStrength === "Weak" ? "bg-red-200" :
+                  passwordStrength === "Medium" ? "bg-yellow-200" : "bg-green-200"
+                }`}>
+                  <div className={`h-2 rounded-full ${
+                    passwordStrength === "Weak" ? "bg-red-500 w-1/3" :
+                    passwordStrength === "Medium" ? "bg-yellow-500 w-2/3" : "bg-green-500 w-full"
+                  }`}></div>
+                </div>
+                <span className={`text-sm font-medium ${
+                  passwordStrength === "Weak" ? "text-red-600" :
+                  passwordStrength === "Medium" ? "text-yellow-600" : "text-green-600"
+                }`}>
+                  {passwordStrength}
+                </span>
+              </div>
+            </div>
+          )}
         </div>
 
         <button 
